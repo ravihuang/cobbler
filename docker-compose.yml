@@ -1,0 +1,6 @@
+cobbler2:
+  image: jasonlix/docker-cobbler
+  volumes:
+    - /mnt/cdrom:/mnt:ro
+  env_file: cobbler.env
+  net: "host"
