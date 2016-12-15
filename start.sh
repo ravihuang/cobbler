@@ -1,4 +1,7 @@
 #!/bin/bash
+
+service httpd start
+
 if [ ! $SERVER_IP ]
 then
        IP=$(ip a s|grep brd |grep 'inet '|egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}' | head -1)
@@ -9,6 +12,9 @@ then
        DHCP_ROUTER=$a.$b.$c.5
        DHCP_DNS=$a.$b.$c.1
        DHCP_RANGE="$a.$b.$c.100 $a.$b.$c.150"
+       service cobblerd start
+       cobbler get-loaders
+       service cobblerd stop
 fi
 
 if [ `grep 127.0.0.1 /etc/cobbler/settings | wc -l` -gt 1 ]
@@ -24,7 +30,8 @@ then
         sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
 fi
 
-service cobblerd start
-service httpd start
+service cobblerd restart
 #cobbler sync > /dev/null 2>&1
 cobbler sync
+
+bash
