@@ -9,8 +9,8 @@ RUN yum -y install cobbler cobbler-web cman && yum update --enablerepo=epel-test
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/rsync && \
     sed -i -e 's/@dists=/dists=/' /etc/debmirror.conf && \
     sed -i -e 's/@arches=/arches=/' /etc/debmirror.conf && \
-    sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1' /etc/cobbler/settings && \
-    sed -i -e 's/module = manage_isc/module = manage_dnsmasq' /etc/cobbler/modules.conf && \
+    sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings && \
+    sed -i -e 's/module = manage_isc/module = manage_dnsmasq/' /etc/cobbler/modules.conf && \
     yum clean all 
 
 #RUN service cobblerd start && cobblerd get-loaders && service cobblerd stop
