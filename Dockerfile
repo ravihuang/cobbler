@@ -8,6 +8,7 @@ RUN yum -y install cobbler cobbler-web cman debmirror python-tornado && yum upda
     sed -i -e 's/@dists=/dists=/' /etc/debmirror.conf && \
     sed -i -e 's/@arches=/arches=/' /etc/debmirror.conf && \
     sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings && \
+    (echo -n "cobbler:Cobbler:" && echo -n "cobbler:Cobbler:passwd" | md5sum | awk '{print $1}' ) >/etc/cobbler/users.digest && \
     rm -f /var/lib/cobbler/loaders/* && yum clean all 
 
 ADD start.sh /start.sh
