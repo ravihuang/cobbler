@@ -1,4 +1,4 @@
-FROM centos:6
+FROM centos:7
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
 RUN yum -y install curl epel-release pykickstart dhcp
