@@ -13,8 +13,9 @@ RUN yum -y install cobbler cobbler-web cman && yum update --enablerepo=epel-test
     sed -i -e 's/module = manage_isc/module = manage_dnsmasq' /etc/cobbler/modules.conf && \
     yum clean all 
 
-
 #RUN service cobblerd start && cobblerd get-loaders && service cobblerd stop
+#RUN curl -O http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/Debian_8.0/cobbler_2.8.0.orig.tar.gz && tar xzvf cobbler_2.8.0.orig.tar.gz
+#RUN cd cobbler-2.8.0 && python setup.py install
 
 CMD ["/start.sh"]
 
