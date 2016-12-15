@@ -12,10 +12,6 @@ RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enabler
     echo "user=root" >> /etc/dnsmasq.conf && \
     yum clean all 
 
-#RUN service cobblerd start && cobblerd get-loaders && service cobblerd stop
-#RUN curl -O http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/Debian_8.0/cobbler_2.8.0.orig.tar.gz && tar xzvf cobbler_2.8.0.orig.tar.gz
-#RUN cd cobbler-2.8.0 && python setup.py install
-
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
 
