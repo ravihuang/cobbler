@@ -1,9 +1,7 @@
 FROM centos:6
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
-ADD start.sh /start.sh
-
-RUN yum -y install curl epel-release pykickstart dnsmasq && chmod +x /start.sh
+RUN yum -y install curl epel-release pykickstart dnsmasq
 RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enablerepo=epel-testing cobbler && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/tftp && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/rsync && \
@@ -17,6 +15,9 @@ RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enabler
 #RUN service cobblerd start && cobblerd get-loaders && service cobblerd stop
 #RUN curl -O http://download.opensuse.org/repositories/home:/libertas-ict:/cobbler28/Debian_8.0/cobbler_2.8.0.orig.tar.gz && tar xzvf cobbler_2.8.0.orig.tar.gz
 #RUN cd cobbler-2.8.0 && python setup.py install
+
+ADD start.sh /start.sh
+RUN chmod +x /start.sh
 
 CMD ["/start.sh"]
 
