@@ -1,4 +1,15 @@
 #!/bin/bash
+if [ ! $SERVER_IP ]
+then
+       IP=$(ip a s|grep brd |grep 'inet '|egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}' | head -1)
+       ROOT_PASSWORD=passwd
+       SERVER_IP=$IP
+       IFS=. read -r a b c d <<< $IP
+       DHCP_SUBNET=$a.$b.$c.0
+       DHCP_ROUTER=$a.$b.$c.5
+       DHCP_DNS=$a.$b.$c.1
+       DHCP_RANGE="$a.$b.$c.100 $a.$b.$c.150"
+fi
 
 if [ `grep 127.0.0.1 /etc/cobbler/settings | wc -l` -gt 1 ]
 then
