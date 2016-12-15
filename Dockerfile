@@ -2,7 +2,7 @@ FROM centos:6
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
 RUN yum -y install curl epel-release pykickstart dhcp
-RUN yum -y install cobbler cobbler-web cman debmirror python-tornado && yum update -y --enablerepo=epel-testing cobbler && \
+RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enablerepo=epel-testing cobbler && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/tftp && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/rsync && \
     sed -i -e 's/@dists=/dists=/' /etc/debmirror.conf && \
