@@ -24,6 +24,7 @@ then
         sed -i "s/192.168.1.0/$DHCP_SUBNET/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.5/$DHCP_ROUTER/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.1;/$DHCP_DNS;/" /etc/cobbler/dhcp.template
+        sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
 fi
 
 service cobblerd start
