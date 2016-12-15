@@ -34,4 +34,6 @@ service cobblerd restart
 #cobbler sync > /dev/null 2>&1
 cobbler sync
 
+service xinetd start
+
 bash
