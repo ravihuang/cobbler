@@ -10,7 +10,7 @@ RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enabler
     sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings && \
     sed -i -e 's/module = manage_isc/module = manage_dnsmasq/' /etc/cobbler/modules.conf && \
     echo "user=root" >> /etc/cobbler/dnsmasq.template && \
-    yum clean all 
+    rm -f /var/lib/cobbler/loaders/* && yum clean all 
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
