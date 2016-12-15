@@ -1,5 +1,5 @@
-cobbler2:
-  image: jasonlix/docker-cobbler
+cobbler:
+  image: ravihuang/cobbler
   volumes:
     - /mnt/cdrom:/mnt:ro
   env_file: cobbler.env
