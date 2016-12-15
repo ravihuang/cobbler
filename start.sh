@@ -12,9 +12,6 @@ then
        DHCP_ROUTER=$a.$b.$c.5
        DHCP_DNS=$a.$b.$c.1
        DHCP_RANGE="$a.$b.$c.100 $a.$b.$c.150"
-       service cobblerd start
-       cobbler get-loaders
-       service cobblerd stop
 fi
 
 if [ `grep 127.0.0.1 /etc/cobbler/settings | wc -l` -gt 1 ]
@@ -27,13 +24,21 @@ then
         sed -i "s/192.168.1.0/$DHCP_SUBNET/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.5/$DHCP_ROUTER/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.1;/$DHCP_DNS;/" /etc/cobbler/dhcp.template
-        sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
 fi
 
-service cobblerd restart
+service cobblerd start
 #cobbler sync > /dev/null 2>&1
+
+if [ ! "$(ls -A /var/lib/cobbler/loaders/)" ]
+then
+   cobbler get-loaders
+fi
+
 cobbler sync
 
 service xinetd start
 
-bash
+while true; do
+         sleep 600
+done
+
