@@ -4,7 +4,7 @@ MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 ADD start.sh /start.sh
 
 RUN yum -y install curl epel-release debmirror pykickstart dnsmasq && chmod +x /start.sh
-RUN yum -y install cobbler cobbler-web cman && yum update --enablerepo=epel-testing cobbler && \
+RUN yum -y install cobbler cobbler-web cman && yum update -y --enablerepo=epel-testing cobbler && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/tftp && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/rsync && \
     sed -i -e 's/@dists=/dists=/' /etc/debmirror.conf && \
