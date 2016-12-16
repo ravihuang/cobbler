@@ -1,8 +1,10 @@
-FROM centos
+FROM centos:7
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
 RUN yum -y install curl epel-release pykickstart dhcp
 RUN yum -y install cobbler cobbler-web fence-agents xinetd  && yum update -y --enablerepo=epel-testing cobbler && \
+    systemctl enable httpd && \
+    systemctl enable collerd && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/tftp && \
     sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings && \
     sed -i -e 's/manage_rsync: 0/manage_rsync: 1/' /etc/cobbler/settings && \
@@ -15,10 +17,13 @@ RUN cd /tmp && \
     cp debmirror/debmirror /usr/bin/ && \
     rm -rf debmirror*
 
-ADD start.sh /start.sh
-RUN chmod +x /start.sh
+ADD start.sh /usr/bin/
+ADD setenv.service /etc/systemd/system/
+RUN chmod +x /usr/bin/start.sh && \
+    systemctl daemon-reload && \
+    systemctl enable setenv
 
-CMD ["/start.sh"]
+CMD ["/usr/sbin/init"]
 
 EXPOSE 25151
 EXPOSE 69/udp

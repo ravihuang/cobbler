@@ -2,5 +2,10 @@ cobbler:
   image: ravihuang/cobbler
   volumes:
     - /mnt/cdrom:/mnt:ro
+    - /sys/fs/cgroup:/sys/fs/cgroup
   env_file: cobbler.env
   net: "host"
+  privileged: true
+  entrypoint: 
+    - /usr/sbin/init
+

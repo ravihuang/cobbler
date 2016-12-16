@@ -1,0 +1,9 @@
+[Unit]
+After=network.target
+Requires=cobblerd.service
+
+[Service]
+ExecStart=/usr/bin/start.sh
+[Install]
+WantedBy=default.target
+

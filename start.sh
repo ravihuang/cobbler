@@ -1,7 +1,5 @@
 #!/bin/bash
 
-systemctl start http
-
 if [ ! $SERVER_IP ]
 then
        IP=$(ip a s|grep brd |grep 'inet '|egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}' | head -1)
@@ -25,9 +23,10 @@ then
         sed -i "s/192.168.1.5/$DHCP_ROUTER/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.1;/$DHCP_DNS;/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
+        systemctl enable xinetd
+        systemctl restart cobblerd
+        systemctl start xinetd
 fi
-
-systemctl start cobblerd
 
 if [ ! "$(ls -A /var/lib/cobbler/loaders/)" ]
 then
@@ -36,10 +35,3 @@ fi
 
 #cobbler sync > /dev/null 2>&1
 cobbler sync
-systemctl start rsyncd
-systemctl start xinetd
-
-while true; do
-         sleep 60
-done
-
