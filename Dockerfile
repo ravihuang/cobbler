@@ -15,8 +15,8 @@ RUN cd /tmp && \
     cp debmirror/debmirror /usr/bin/ && \
     rm -rf debmirror*
 
-ADD start.sh /usr/bin/setenv
-RUN chmod +x /usr/bin/setenv
+ADD setenv /
+RUN chmod +x /setenv
 
 CMD ["/usr/sbin/init"]
 
