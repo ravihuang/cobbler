@@ -15,13 +15,8 @@ RUN cd /tmp && \
     cp debmirror/debmirror /usr/bin/ && \
     rm -rf debmirror*
 
-ADD start.sh /usr/bin/
-ADD setenv.service /etc/systemd/system/
-RUN chmod +x /usr/bin/start.sh && \
-    systemctl daemon-reload && \
-    systemctl enable setenv && \
-    systemctl enable httpd && \
-    systemctl enable collerd
+ADD start.sh /usr/bin/setenv
+RUN chmod +x /usr/bin/setenv
 
 CMD ["/usr/sbin/init"]
 

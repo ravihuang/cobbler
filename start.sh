@@ -23,10 +23,12 @@ then
         sed -i "s/192.168.1.5/$DHCP_ROUTER/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.1;/$DHCP_DNS;/" /etc/cobbler/dhcp.template
         sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
-        systemctl enable xinetd
-        systemctl restart cobblerd
-        systemctl start xinetd
 fi
+systemctl enable httpd
+systemctl enable collerd
+systemctl enable xinetd
+systemctl start httpd
+systemctl start collerd
 
 if [ ! "$(ls -A /var/lib/cobbler/loaders/)" ]
 then
@@ -35,3 +37,5 @@ fi
 
 #cobbler sync > /dev/null 2>&1
 cobbler sync
+
+systemctl start xinetd
