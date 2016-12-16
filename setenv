@@ -26,6 +26,7 @@ then
 	systemctl enable httpd
 	systemctl enable cobblerd
 	systemctl enable xinetd
+	systemctl enable rsyncd
 	systemctl start httpd
 	systemctl start cobblerd
 fi
@@ -41,3 +42,4 @@ fi
 cobbler sync
 
 systemctl start xinetd
+systemctl start rsyncd
