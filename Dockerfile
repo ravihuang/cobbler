@@ -9,6 +9,8 @@ RUN yum -y install cobbler cobbler-web fence-agents xinetd  && yum update -y --e
     (echo -n "cobbler:Cobbler:" && echo -n "cobbler:Cobbler:passwd" | md5sum | awk '{print $1}' ) >/etc/cobbler/users.digest && \
     rm -f /var/lib/cobbler/loaders/* && yum clean all 
 
+ENV container=docker
+
 RUN cd /tmp && \
     curl -O http://ftp.es.debian.org/debian/pool/main/d/debmirror/debmirror_2.25.tar.xz && \
     tar xf debmirror_2.25.tar.xz && \
