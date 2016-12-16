@@ -1,6 +1,6 @@
 #!/bin/bash
 
-service httpd start
+systemctl start http
 
 if [ ! $SERVER_IP ]
 then
@@ -27,19 +27,19 @@ then
         sed -i "s/192.168.1.100 192.168.1.254/$DHCP_RANGE/" /etc/cobbler/dhcp.template
 fi
 
-service cobblerd start
-#cobbler sync > /dev/null 2>&1
+systemctl start cobblerd
 
 if [ ! "$(ls -A /var/lib/cobbler/loaders/)" ]
 then
    cobbler get-loaders
 fi
 
+#cobbler sync > /dev/null 2>&1
 cobbler sync
-
-service xinetd start
+systemctl start rsyncd
+systemctl start xinetd
 
 while true; do
-         sleep 600
+         sleep 60
 done
 

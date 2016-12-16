@@ -1,15 +1,18 @@
-FROM centos:6
+FROM centos:7
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
 RUN yum -y install curl epel-release pykickstart dhcp
-RUN yum -y install cobbler cobbler-web cman debmirror && yum update -y --enablerepo=epel-testing cobbler && \
+RUN yum -y install cobbler cobbler-web fence-agents xinetd  && yum update -y --enablerepo=epel-testing cobbler && \
     sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/tftp && \
-    sed -i -e 's/\(^.*disable.*=\) yes/\1 no/' /etc/xinetd.d/rsync && \
-    sed -i -e 's/@dists=/dists=/' /etc/debmirror.conf && \
-    sed -i -e 's/@arches=/arches=/' /etc/debmirror.conf && \
     sed -i -e 's/manage_dhcp: 0/manage_dhcp: 1/' /etc/cobbler/settings && \
+    sed -i -e 's/manage_rsync: 0/manage_rsync: 1/' /etc/cobbler/settings && \
     (echo -n "cobbler:Cobbler:" && echo -n "cobbler:Cobbler:passwd" | md5sum | awk '{print $1}' ) >/etc/cobbler/users.digest && \
     rm -f /var/lib/cobbler/loaders/* && yum clean all 
+
+RUN cd /tmp && \
+    curl -O http://ftp.es.debian.org/debian/pool/main/d/debmirror/debmirror_2.25.tar.xz && \
+    tar xf debmirror_2.25.tar.xz && \
+    cp debmirror/debmirror /usr/bin/
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
