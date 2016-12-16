@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos
 MAINTAINER Ravi Huang <ravi.huang@gmail.com>
 
 RUN yum -y install curl epel-release pykickstart dhcp
@@ -12,7 +12,8 @@ RUN yum -y install cobbler cobbler-web fence-agents xinetd  && yum update -y --e
 RUN cd /tmp && \
     curl -O http://ftp.es.debian.org/debian/pool/main/d/debmirror/debmirror_2.25.tar.xz && \
     tar xf debmirror_2.25.tar.xz && \
-    cp debmirror/debmirror /usr/bin/
+    cp debmirror/debmirror /usr/bin/ && \
+    rm -rf debmirror*
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
